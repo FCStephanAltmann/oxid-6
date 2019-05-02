@@ -146,7 +146,7 @@ class fcpoTransactionStatus extends oxBase
     {
         $oLang = $this->_oFcpoHelper->fcpoGetLang();
         $sLangAppointed = $this->_fcpoGetLangIdent($dReceivable, 'fcpo_receivable_appointed1', 'fcpo_receivable_appointed2');
-        $sLangReminder = $this->_fcpoGetLangIdent($dReceivable, 'fcpo_receivable_reminder', '');
+        $sLangReminder = $this->_fcpoGetLangIdent($dReceivable, 'fcpo_receivable_reminder', 'fcpo_receivable_reminder');
         $sLangDebit = $this->_fcpoGetLangIdent($dReceivable, 'fcpo_receivable_debit1', 'fcpo_receivable_debit2');
 
         $aMatchMap = array(
@@ -156,6 +156,7 @@ class fcpoTransactionStatus extends oxBase
             'refund' => $sLangDebit,
             'debit' => $sLangDebit,
             'reminder' => $sLangReminder,
+            'invoice' => 'fcpo_receivable_invoice'
         );
 
         $sTxAction = $this->fcpotransactionstatus__fcpo_txaction->value;

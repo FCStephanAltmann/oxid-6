@@ -182,6 +182,7 @@ $aLang = array(
 'fcpo_receivable_debit2'                    => 'Gutschrift (Debit/Refund)',
 'fcpo_receivable_reminder'                  => 'Mahnungsversand',
 'fcpo_receivable_cancelation'               => 'Rücklastschriftgebühr',
+'fcpo_receivable_invoice'                   => 'Rechnungsstellung',
 'fcpo_payment_capture1'                     => 'Einzug',
 'fcpo_payment_capture2'                     => 'Auszahlung',
 'fcpo_payment_paid1'                        => 'Zahlungseingang',

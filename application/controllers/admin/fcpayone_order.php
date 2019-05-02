@@ -151,7 +151,25 @@ class fcpayone_order extends fcpayone_admindetails
                 $this->_aStatus = $oOrder->fcpoGetStatus();
             }
         }
-        return $this->_aStatus;
+
+        return $this->filterInvoiceBalances($this->_aStatus);
+    }
+
+    /**
+     * invoice transactions should not be applied to saldo. to achieve this we will set a virtual value
+     *
+     * @param $aStatus
+     * @return array
+     */
+    public function filterInvoiceBalances($aStatus) {
+        foreach($aStatus as $index=>&$status) {
+            if($status->fcpotransactionstatus__fcpo_txaction->value == 'invoice') {
+                $status->fcpotransactionstatus__fcpo_balance->setValue($this->_aStatus[$index-1]->fcpotransactionstatus__fcpo_balance->value);
+                $status->fcpotransactionstatus__fcpo_receivable->setValue($this->_aStatus[$index-1]->fcpotransactionstatus__fcpo_receivable->value);
+            }
+        }
+
+        return $aStatus;
     }
 
     /**

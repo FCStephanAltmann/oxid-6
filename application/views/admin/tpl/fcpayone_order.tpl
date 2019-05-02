@@ -981,15 +981,21 @@
                             [{assign var="listclass" value="listitem"}]
                             [{assign var="last_receivable" value=0}]
                             [{assign var="last_payment" value=0}]
-                            [{foreach from=$status item=stat name=transactions}]
+                            [{foreach from=$status item=stat name=transactions key=status_index}]
                                 [{assign var="receivable" value=$stat->fcpotransactionstatus__fcpo_receivable->value}]
                                 [{assign var="payment" value=$stat->fcpotransactionstatus__fcpo_receivable->value-$stat->fcpotransactionstatus__fcpo_balance->value}]
 
-                                [{if $last_receivable != $receivable || ($last_receivable == $receivable && $last_payment == $payment)}]
+                                [{if $stat->fcpotransactionstatus__fcpo_txaction->value != 'invoice'}]
+                                    [{assign var="line_value" value=$receivable-$last_receivable}]
+                                [{else}]
+                                    [{assign var="line_value" value=0}]
+                                [{/if}]
+
+                                [{if ($last_receivable != $receivable) || ($last_receivable == $receivable && $last_payment == $payment)}]
                                     <tr>
                                         <td class="[{$listclass}]" style="padding-left: 5px;"><a href="Javascript:editThisStatus('[{$stat->fcpotransactionstatus__oxid->value}]', '[{$oxid}]');">[{$stat->fcpotransactionstatus__fcpo_timestamp->value}]</a>&nbsp;</td>
                                         <td class="[{$listclass}]" style="padding-left: 5px;">[{$stat->getDisplayNameReceivable($receivable-$last_receivable)}]&nbsp;</td>
-                                        <td class="[{$listclass}]" style="padding-left: 5px; [{if $receivable-$last_receivable < 0}]color: red;[{/if}]">[{$receivable-$last_receivable|number_format:2:',':''}]&nbsp;[{$stat->fcpotransactionstatus__fcpo_currency->value}]</td>
+                                        <td class="[{$listclass}]" style="padding-left: 5px; [{if $receivable-$last_receivable < 0 && $line_value > 0}]color: red;[{/if}]">[{$line_value|number_format:2:',':''}]&nbsp;[{$stat->fcpotransactionstatus__fcpo_currency->value}]</td>
                                         <td class="[{$listclass}]" style="padding-left: 5px;"></td>
                                     </tr>
                                     [{if $listclass == "listitem2"}]
@@ -997,6 +1003,7 @@
                                     [{else}]
                                         [{assign var="listclass" value="listitem2"}]
                                     [{/if}]
+
                                 [{/if}]
 
                                 [{if $last_payment != $payment}]
@@ -1015,8 +1022,10 @@
 
                                 [{assign var="last_receivable" value=$receivable}]
                                 [{assign var="last_payment" value=$payment}]
+
                                 [{if $smarty.foreach.transactions.last}]
                                     </table>
+
                                     <table cellspacing="0" cellpadding="0" border="0" width="100%">
                                         <tr>
                                             <td align="right">

@@ -177,6 +177,7 @@ $aLang = array(
 'fcpo_receivable_debit2'                    => 'Credit (Debit/Refund)',
 'fcpo_receivable_reminder'                  => 'Reminder delivery',
 'fcpo_receivable_cancelation'               => 'Chargeback fee',
+'fcpo_receivable_invoice'                   => 'Invoiced',
 'fcpo_payment_capture1'                     => 'Indent',
 'fcpo_payment_capture2'                     => 'Payout',
 'fcpo_payment_paid1'                        => 'Receipt of payment',
